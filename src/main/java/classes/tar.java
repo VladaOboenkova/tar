@@ -24,7 +24,7 @@ public class tar {
                 logic.out(logic.getFiles());
             }
             if (arg.equals("-u")){
-                System.out.println(logic.u(logic.getFileName()));
+                logic.u(logic.getFileName());
             }
         }
     }
