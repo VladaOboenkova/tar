@@ -1,15 +1,13 @@
 package classes;
 
-import java.util.*;
-import java.io.*;
 import org.kohsuke.args4j.*;
 
 public class tar {
 
     public static void main(String[] args) throws Exception {
 
-        Logic arguments = new Logic();
-        CmdLineParser parser = new CmdLineParser(arguments);
+        Logic logic = new Logic();
+        CmdLineParser parser = new CmdLineParser(logic);
 
         try {
             parser.parseArgument(args);
@@ -17,8 +15,18 @@ public class tar {
             System.err.println("e = " + e.toString());
             parser.printUsage(System.out);
         }
-        System.out.println(arguments.getFiles());
-        System.out.println(arguments.getOut());
+
+        for (String arg : args) {
+            if (arg.equals("-show")) {
+                logic.showFile(logic.getFileToShow());
+            }
+            if (arg.equals("-out")){
+                logic.out(logic.getFiles());
+            }
+            if (arg.equals("-u")){
+                System.out.println(logic.u(logic.getFileName()));
+            }
+        }
     }
 }
 
