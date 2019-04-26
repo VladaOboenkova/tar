@@ -81,7 +81,7 @@ class Logic {
             fileReader.close();
             fileWriter.flush();
             fileWriter.close();
-        }
+        } // добавить в новый списко!!!!
         return files;
     }
 
