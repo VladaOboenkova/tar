@@ -1,11 +1,13 @@
 package classes;
 
-import org.kohsuke.args4j.*;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 import java.io.*;
-import java.util.*;
-
-import static com.sun.javafx.binding.StringFormatter.concat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 class Logic {
 
@@ -41,28 +43,8 @@ class Logic {
      * Приводит файлы к типу "длина имени -> имя -> длина файла в символах -> содержимое файла.
      */
     public List<File> fileRedactor(List<File> files) throws IOException {
-        List<File> newFilesBefore = new ArrayList<File>();
-        List<File> newFilesAfter = new ArrayList<File>();
-        files.remove(files.size() - 1);
+        List<File> newFiles = new ArrayList<File>();
         for (File file : files){
-            File newFile = new File(file.getName());
-            FileReader fileReader = new FileReader(file);
-            FileWriter fileWriter = new FileWriter(newFile);
-            char[] text = new char[(int) file.length()];
-            while (fileReader.ready()) {
-                fileReader.read(text);
-                String s = new String(text);
-                String str = s + "!end!";
-                fileWriter.write(str);
-            }
-            fileWriter.flush();
-            fileWriter.close();
-            fileReader.close();
-            newFilesBefore.add(newFile);
-        }
-        newFilesBefore.add(getFiles().get(getFiles().size() - 1));
-        System.out.println(newFilesBefore);
-        for (File file : newFilesBefore){
             File newFile = new File(file.getName());
             FileWriter fileWriter = new FileWriter(newFile);
             FileReader fileReader = new FileReader(file);
@@ -78,9 +60,29 @@ class Logic {
             fileReader.close();
             fileWriter.flush();
             fileWriter.close();
-            newFilesAfter.add(newFile);
+            newFiles.add(newFile);
         }
-        return newFilesAfter;
+        return newFiles;
+    }
+
+    List<File> addSeparator(List<File> files) throws IOException {
+        for (int i = 0; i < files.size() - 2; i++){
+            File newFile = new File(files.get(i).getName());
+            FileWriter fileWriter = new FileWriter(newFile);
+            FileReader fileReader = new FileReader(files.get(i));
+            char[] text = new char[(int) files.get(i).length()];
+            while (fileReader.ready()){
+                fileReader.read(text);
+                String textString = new String(text);
+                String separator = "!end!";
+                fileWriter.write(textString);
+                fileWriter.write(separator);
+            }
+            fileReader.close();
+            fileWriter.flush();
+            fileWriter.close();
+        }
+        return files;
     }
 
     /**
