@@ -11,29 +11,58 @@ class Logic {
     @Argument
     private List<File> files = new ArrayList<File>();
 
-    List<File> getFiles() {
+    public List<File> getFiles() {
         return files;
     }
 
     @Option(name = "-out")
-    private File out = new File("C:/Users/Влада/IdeaProjects/tar/src/main/java/Texts/output.txt");
+    private File out = new File("output.txt");
 
-    private File getOut() {
+    public File getOut() {
         return out;
     }
 
     @Option(name = "-show")
     private File fileToShow = new File("fileToShow.txt");
 
-    File getFileToShow() {
+    public File getFileToShow() {
         return fileToShow;
     }
 
     @Option(name = "-u")
-    private File fileName = new File("C:/Users/Влада/IdeaProjects/tar/src/main/java/Texts/output.txt");
+    private File fileName = new File("output.txt");
 
-    File getFileName() {
+    public File getFileName() {
         return fileName;
+    }
+
+    /**
+     * Приводит файлы к типу "длина имени -> имя -> длина файла в символах -> содержимое файла
+     */
+    public List<File> fileRedactor(List<File> files) throws IOException {
+        List<File> newFiles = new ArrayList<File>();
+        for (File file : files){
+            File newFile = new File(file.getName());
+            FileWriter fileWriter = new FileWriter(newFile);
+            FileReader fileReader = new FileReader(file);
+            String name = file.getName();
+            String nameSize = name.length() + "";
+            String size = (int) file.length() + "";
+            char[] origText = new char[(int) file.length()];
+            while (fileReader.ready()){
+                fileReader.read(origText);
+                String origTextString = new String(origText);
+                fileWriter.write(nameSize);
+                fileWriter.write(name);
+                fileWriter.write(size);
+                fileWriter.write(origTextString);
+            }
+            fileReader.close();
+            fileWriter.flush();
+            fileWriter.close();
+            newFiles.add(newFile);
+        }
+        return newFiles;
     }
 
     void showFile(File fileToShow) throws IOException {// вывод содержимого файла
@@ -56,7 +85,7 @@ class Logic {
                 fileReader.read(text);
                 String stringText = new String(text);
                 stringText += "ᅠ";
-                stringText += "\n";
+                stringText += "\n";               //System.pathSeparator
                 fileWriter.write(stringText);
             }
             fileWriter.flush();
