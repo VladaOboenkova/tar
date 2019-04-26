@@ -84,8 +84,8 @@ class Logic {
             while (fileReader.ready()) {
                 fileReader.read(text);
                 String stringText = new String(text);
-                stringText += "ᅠ";
-                stringText += "\n";               //System.pathSeparator
+                String lineSeparator = System.getProperty("line.separator");
+                stringText += lineSeparator;
                 fileWriter.write(stringText);
             }
             fileWriter.flush();
