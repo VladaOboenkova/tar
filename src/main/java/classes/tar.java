@@ -21,7 +21,6 @@ public class tar {
                 logic.showFile(logic.getFileToShow());
             }
             if (arg.equals("-out")) {
-                //logic.out(logic.addSeparator(logic.fileRedactor(logic.getFiles())));
                 logic.out(logic.load(logic.getFiles()));
             }
             if (arg.equals("-u")) {
