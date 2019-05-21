@@ -2,9 +2,6 @@ package classes;
 
 import org.kohsuke.args4j.*;
 
-import java.io.File;
-import java.util.List;
-
 public class tar {
 
     public static void main(String[] args) throws Exception {
@@ -23,11 +20,12 @@ public class tar {
             if (arg.equals("-show")) {
                 logic.showFile(logic.getFileToShow());
             }
-            if (arg.equals("-out")){
-                logic.out(logic.addSeparator(logic.fileRedactor(logic.getFiles())));
+            if (arg.equals("-out")) {
+                //logic.out(logic.addSeparator(logic.fileRedactor(logic.getFiles())));
+                logic.out(logic.load(logic.getFiles()));
             }
-            if (arg.equals("-u")){
-                logic.u(logic.getFileName());
+            if (arg.equals("-u")) {
+                logic.split(logic.getFileName());
             }
         }
     }
