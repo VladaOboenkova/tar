@@ -18,10 +18,10 @@ public class tar {
                     logic.showFile(logic.getFileToShow());
                 }
                 if (Arrays.asList(args).contains("-out")) {
-                    logic.out(logic.load(/*logic.getFiles()*/), logic.getOut());
+                    logic.out(logic.load(), logic.getOut());
                 }
                 if (Arrays.asList(args).contains("-u")) {
-                    logic.split(/*logic.getFileName()*/);
+                    logic.split();
                 }
         } catch (CmdLineException e) {
             System.err.println("e = " + e.toString());
