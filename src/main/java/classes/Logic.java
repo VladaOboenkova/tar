@@ -2,12 +2,8 @@ package classes;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
-
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 class Logic {
 
@@ -44,7 +40,7 @@ class Logic {
         this.fileToShow = fileToShow;
     }
 
-    @Option(name = "-split", forbids = "-out")
+    @Option(name = "-u", forbids = "-out")
     private File fileName;
 
     public File getFileName() {
@@ -99,26 +95,24 @@ class Logic {
             return textFile;
         }
 
-     public List<File> split(File fileName) throws IOException {
+     public List<File> split(/*File fileName*/) throws IOException {
          List<File> outTexts = new ArrayList<>();
          String[] texts = null;
-         if (fileName.length() != 0) {
-             FileReader fileReader = new FileReader(fileName);
-             char[] text = new char[(int) fileName.length()];
+         if (this.fileName.length() != 0) {
+             FileReader fileReader = new FileReader(this.fileName);
+             char[] text = new char[(int) this.fileName.length()];
              while (fileReader.ready()) {
                  fileReader.read(text);
                  String stringText = new String(text);
                  texts = stringText.split("!end!");
              }
              fileReader.close();
-             System.out.println(Arrays.toString(texts));
              if (texts != null) {
                  for (String str : texts) {
                      List<String> lines = new ArrayList<>();
                      try (Scanner s = new Scanner(str)) {
                          while (s.hasNextLine()) {
                              lines.add(s.nextLine());
-                             System.out.println(lines);
                          }
                      }
                      String name = lines.get(0);

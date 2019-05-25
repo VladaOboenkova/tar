@@ -21,7 +21,7 @@ public class tar {
                     logic.out(logic.load(/*logic.getFiles()*/), logic.getOut());
                 }
                 if (Arrays.asList(args).contains("-u")) {
-                    logic.split(logic.getFileName());
+                    logic.split(/*logic.getFileName()*/);
                 }
         } catch (CmdLineException e) {
             System.err.println("e = " + e.toString());
