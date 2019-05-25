@@ -2,6 +2,9 @@ package classes;
 
 import org.kohsuke.args4j.*;
 
+import java.util.Arrays;
+
+
 public class tar {
 
     public static void main(String[] args) throws Exception {
@@ -11,22 +14,20 @@ public class tar {
 
         try {
             parser.parseArgument(args);
+                if (Arrays.asList(args).contains("-show")) {
+                    logic.showFile(logic.getFileToShow());
+                }
+                if (Arrays.asList(args).contains("-out")) {
+                    logic.out(logic.load(logic.getFiles()), logic.getOut());
+                }
+                if (Arrays.asList(args).contains("-u")) {
+                    logic.split(logic.getFileName());
+                }
         } catch (CmdLineException e) {
             System.err.println("e = " + e.toString());
             parser.printUsage(System.out);
         }
-
-        for (String arg : args) {
-            if (arg.equals("-show")) {
-                logic.showFile(logic.getFileToShow());
-            }
-            if (arg.equals("-out")) {
-                logic.out(logic.load(logic.getFiles()));
-            }
-            if (arg.equals("-u")) {
-                logic.split(logic.getFileName());
-            }
         }
     }
-}
+
 

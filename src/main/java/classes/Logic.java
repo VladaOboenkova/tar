@@ -14,29 +14,41 @@ class Logic {
     @Argument
     private List<File> files = new ArrayList<>();
 
+    public void setFiles(List<File> files) {
+        this.files = files;
+    }
+
     public List<File> getFiles() {
         return files;
     }
 
-    @Option(name = "-out")
-    private File out = new File("output.txt");
+    @Option(name = "-out", forbids = "-split")
+    private File out;
 
     public File getOut() {
         return out;
     }
 
+    public void setOut(File out) {
+        this.out = out;
+    }
+
     @Option(name = "-show")
-    private File fileToShow = new File("fileToShow.txt");
+    private File fileToShow = new File("fileToShow.txt"); //boolean
 
     public File getFileToShow() {
         return fileToShow;
     }
 
-    @Option(name = "-split")
-    private File fileName = new File("output.txt");
+    @Option(name = "-split", forbids = "-out")
+    private File fileName;
 
     public File getFileName() {
         return fileName;
+    }
+
+    public void setFileName(File fileName) {
+        this.fileName = fileName;
     }
 
     public List<String> load(List<File> files) throws IOException {
@@ -73,13 +85,14 @@ class Logic {
         fileReader.close();
     }
 
-    public void out(List<String> files) throws IOException {
+    public File out(List<String> files, File textFile) throws IOException {
         for (String file : files) {
-            FileWriter fileWriter = new FileWriter(getOut(), true);
+            FileWriter fileWriter = new FileWriter(textFile, true);
                 fileWriter.write(file);
             fileWriter.flush();
             fileWriter.close();
             }
+            return textFile;
         }
 
      public List<File> split(File fileName) throws IOException {
