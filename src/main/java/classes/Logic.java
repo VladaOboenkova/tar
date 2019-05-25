@@ -34,10 +34,14 @@ class Logic {
     }
 
     @Option(name = "-show")
-    private File fileToShow = new File("fileToShow.txt"); //boolean
+    private File fileToShow;
 
     public File getFileToShow() {
         return fileToShow;
+    }
+
+    public void setFileToShow(File fileToShow) {
+        this.fileToShow = fileToShow;
     }
 
     @Option(name = "-split", forbids = "-out")
@@ -51,10 +55,10 @@ class Logic {
         this.fileName = fileName;
     }
 
-    public List<String> load(List<File> files) throws IOException {
+    public List<String> load() throws IOException {
         List<String> texts = new ArrayList<>();
-        for (int i = 0; i < files.size(); i++) {
-            File file = files.get(i);
+        for (int i = 0; i < this.files.size(); i++) {
+            File file = this.files.get(i);
             FileReader fileReader = new FileReader(file);
             String lineSeparator = System.getProperty("line.separator");
             String name = file.getName() + lineSeparator;
@@ -63,7 +67,7 @@ class Logic {
             String textToAdd;
             String origTextString = new String(origText);
             textToAdd = name + origTextString;
-            if (i != files.size() - 1){
+            if (i != this.files.size() - 1){
                 textToAdd += "!end!" ;
             }
             texts.add(textToAdd);
@@ -129,5 +133,6 @@ class Logic {
          }
          return outTexts;
      }
+
 }
 
