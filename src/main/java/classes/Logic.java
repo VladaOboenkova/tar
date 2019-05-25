@@ -86,16 +86,16 @@ class Logic {
     }
 
     public File out(List<String> files, File textFile) throws IOException {
+        FileWriter fileWriter = new FileWriter(textFile, true);
         for (String file : files) {
-            FileWriter fileWriter = new FileWriter(textFile, true);
                 fileWriter.write(file);
-            fileWriter.flush();
-            fileWriter.close();
             }
+        fileWriter.flush();
+        fileWriter.close();
             return textFile;
         }
 
-     public List<File> split(/*File fileName*/) throws IOException {
+     public List<File> split() throws IOException {
          List<File> outTexts = new ArrayList<>();
          String[] texts = null;
          if (this.fileName.length() != 0) {
