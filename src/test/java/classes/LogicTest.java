@@ -46,7 +46,8 @@ public class LogicTest {
     public void out() throws IOException {
         Logic logic = new Logic();
 
-        File expected = new File("input (Test)/output.txt");
+        File expectedFile = new File("input (Test)/output.txt");
+        String expected = FileUtils.readFileToString(expectedFile, "UTF-8");
 
         List<String> strings = new ArrayList<>();
         File firstTestFile = new File("input (Test)/text1.txt");
@@ -70,12 +71,14 @@ public class LogicTest {
             fileReader.close();
         }
 
-        File result = new File("input (Test)/test.txt");
+        File resultFile = new File("input (Test)/test.txt");
 
-        if (result.length() == 0){
-            result = logic.out(strings, result);
+        if (resultFile.length() == 0){
+            resultFile = logic.out(strings, resultFile);
         }
-        Assert.assertEquals(FileUtils.readLines(expected), FileUtils.readLines(result));
+
+        String result = FileUtils.readFileToString(resultFile, "UTF-8");
+        Assert.assertEquals(expected, result);
     }
 
     @Test
