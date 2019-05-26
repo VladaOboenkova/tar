@@ -18,7 +18,7 @@ public class tar {
                     logic.showFile(logic.getFileToShow());
                 }
                 if (Arrays.asList(args).contains("-out")) {
-                    logic.out(logic.load(), logic.getOut());
+                    logic.out(logic.load());
                 }
                 if (Arrays.asList(args).contains("-u")) {
                     logic.split();

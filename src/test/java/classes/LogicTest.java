@@ -33,6 +33,7 @@ public class LogicTest {
             char[] charText = new char[(int) testFiles.get(i).length()];
             fileReader.read(charText);
             String stringText = new String(charText);
+            stringText.trim();
             if (i != testFiles.size() - 1){
                 stringText += "!end!" ;
             }
@@ -58,27 +59,20 @@ public class LogicTest {
 
         for (int i = 0; i < testFiles.size(); i++){
             File file = testFiles.get(i);
-            FileReader fileReader = new FileReader(file);
-            char[] charText = new char[(int) file.length()];
-            fileReader.read(charText);
-            String stringText = new String(charText);
-            String endText;
-            endText = stringText;
+            String stringText = FileUtils.readFileToString(file);
+            stringText.trim();
             if (i != testFiles.size() - 1){
-                endText += "!end!";
+                stringText += "!end!";
             }
-            strings.add(endText);
-            fileReader.close();
+            strings.add(stringText.trim());
         }
 
-        File resultFile = new File("input (Test)/test.txt");
-
-        if (resultFile.length() == 0){
-            resultFile = logic.out(strings, resultFile);
-        }
+        File resultFile = new File("test.txt");
+        logic.setOut(resultFile);
+        logic.out(strings);
 
         String result = FileUtils.readFileToString(resultFile, "UTF-8");
-        Assert.assertEquals(expected, result);
+        Assert.assertEquals(expected.trim(), result.trim());
     }
 
     @Test

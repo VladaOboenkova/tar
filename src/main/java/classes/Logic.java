@@ -3,6 +3,7 @@ package classes;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 class Logic {
@@ -85,14 +86,14 @@ class Logic {
         fileReader.close();
     }
 
-    public File out(List<String> files, File textFile) throws IOException {
-        FileWriter fileWriter = new FileWriter(textFile, true);
+    public File out(List<String> files) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter
+                (new OutputStreamWriter(new FileOutputStream(this.out), StandardCharsets.UTF_8));
         for (String file : files) {
-                fileWriter.write(file);
+                bufferedWriter.write(file);
             }
-        fileWriter.flush();
-        fileWriter.close();
-            return textFile;
+        bufferedWriter.close();
+            return this.out;
         }
 
      public List<File> split() throws IOException {
