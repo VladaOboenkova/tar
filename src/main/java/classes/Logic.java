@@ -3,7 +3,6 @@ package classes;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 class Logic {
@@ -15,38 +14,15 @@ class Logic {
         this.files = files;
     }
 
-    public List<File> getFiles() {
-        return files;
-    }
-
     @Option(name = "-out", forbids = "-split")
     private File out;
-
-    public File getOut() {
-        return out;
-    }
 
     public void setOut(File out) {
         this.out = out;
     }
 
-    @Option(name = "-show")
-    private File fileToShow;
-
-    public File getFileToShow() {
-        return fileToShow;
-    }
-
-    public void setFileToShow(File fileToShow) {
-        this.fileToShow = fileToShow;
-    }
-
     @Option(name = "-u", forbids = "-out")
     private File fileName;
-
-    public File getFileName() {
-        return fileName;
-    }
 
     public void setFileName(File fileName) {
         this.fileName = fileName;
@@ -64,70 +40,56 @@ class Logic {
             String textToAdd;
             String origTextString = new String(origText);
             textToAdd = name + origTextString;
-            if (i != this.files.size() - 1){
-                textToAdd += "!end!" ;
+            if (i != this.files.size() - 1) {
+                textToAdd += "!end!";
             }
             texts.add(textToAdd);
         }
         return texts;
     }
 
-    /**
-     * Показывает содержимое файла.
-     */
-    public void showFile(File fileToShow) throws IOException {
-        FileReader fileReader = new FileReader(fileToShow);
-        char[] textToShow = new char[(int) fileToShow.length()];
-        while (fileReader.ready()) {
-            fileReader.read(textToShow);
-            String stringText = new String(textToShow);
-            System.out.println(stringText);
+    public File out(List<String> files) throws IOException {
+        FileWriter fileWriter = new FileWriter(this.out);
+        for (String file : files) {
+            fileWriter.write(file);
         }
-        fileReader.close();
+        fileWriter.flush();
+        fileWriter.close();
+        return this.out;
     }
 
-    public File out(List<String> files) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter
-                (new OutputStreamWriter(new FileOutputStream(this.out), StandardCharsets.UTF_8));
-        for (String file : files) {
-                bufferedWriter.write(file);
+    public List<File> split() throws IOException {
+        List<File> outTexts = new ArrayList<>();
+        String[] texts = null;
+        if (this.fileName.length() != 0) {
+            FileReader fileReader = new FileReader(this.fileName);
+            char[] text = new char[(int) this.fileName.length()];
+            while (fileReader.ready()) {
+                fileReader.read(text);
+                String stringText = new String(text);
+                texts = stringText.split("!end!");
             }
-        bufferedWriter.close();
-            return this.out;
+            fileReader.close();
+            if (texts != null) {
+                for (String str : texts) {
+                    List<String> lines = new ArrayList<>();
+                    try (Scanner s = new Scanner(str)) {
+                        while (s.hasNextLine()) {
+                            lines.add(s.nextLine());
+                        }
+                    }
+                    String name = lines.get(0);
+                    File file = new File(name);
+                    FileWriter fileWriter = new FileWriter(file, true);
+                    fileWriter.write(str);
+                    fileWriter.flush();
+                    fileWriter.close();
+                    outTexts.add(file);
+                }
+            }
         }
-
-     public List<File> split() throws IOException {
-         List<File> outTexts = new ArrayList<>();
-         String[] texts = null;
-         if (this.fileName.length() != 0) {
-             FileReader fileReader = new FileReader(this.fileName);
-             char[] text = new char[(int) this.fileName.length()];
-             while (fileReader.ready()) {
-                 fileReader.read(text);
-                 String stringText = new String(text);
-                 texts = stringText.split("!end!");
-             }
-             fileReader.close();
-             if (texts != null) {
-                 for (String str : texts) {
-                     List<String> lines = new ArrayList<>();
-                     try (Scanner s = new Scanner(str)) {
-                         while (s.hasNextLine()) {
-                             lines.add(s.nextLine());
-                         }
-                     }
-                     String name = lines.get(0);
-                     File file = new File(name);
-                     FileWriter fileWriter = new FileWriter(file, true);
-                     fileWriter.write(str);
-                     fileWriter.flush();
-                     fileWriter.close();
-                     outTexts.add(file);
-                 }
-             }
-         }
-         return outTexts;
-     }
+        return outTexts;
+    }
 
 }
 

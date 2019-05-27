@@ -14,9 +14,6 @@ public class tar {
 
         try {
             parser.parseArgument(args);
-                if (Arrays.asList(args).contains("-show")) {
-                    logic.showFile(logic.getFileToShow());
-                }
                 if (Arrays.asList(args).contains("-out")) {
                     logic.out(logic.load());
                 }
