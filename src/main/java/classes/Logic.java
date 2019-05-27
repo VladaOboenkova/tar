@@ -64,7 +64,7 @@ class Logic {
         if (this.fileName.length() != 0) {
             FileReader fileReader = new FileReader(this.fileName);
             char[] text = new char[(int) this.fileName.length()];
-            while (fileReader.ready()) {
+            if (fileReader.ready()) {
                 fileReader.read(text);
                 String stringText = new String(text);
                 texts = stringText.split("!end!");
