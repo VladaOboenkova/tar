@@ -85,12 +85,24 @@ public class LogicTest {
         List<File> testFiles = new ArrayList<>();
         testFiles.add(firstTestFile);
         testFiles.add(secondTestFile);
+        List<String> expected = new ArrayList<>();
+
+        for (File testFile : testFiles){
+            String stringTextFile = FileUtils.readFileToString(testFile);
+            expected.add(stringTextFile.trim());
+        }
 
         File test = new File("input (Test)/output.txt");
         logic.setFileName(test);
 
-        List<File> result = logic.split();
+        List<File> resultFiles = logic.split();
+        List<String> result = new ArrayList<>();
 
-        Assert.assertEquals(testFiles, result);
+        for (File file : resultFiles){
+            String stringFile = FileUtils.readFileToString(file);
+            result.add(stringFile.trim());
+        }
+
+        Assert.assertEquals(expected, result);
     }
 }
