@@ -4,9 +4,12 @@ package classes;
 import org.apache.commons.io.*;
 import org.junit.*;
 import java.io.*;
+import java.nio.file.Files;
 import java.util.*;
 
 public class LogicTest {
+
+    private static final String END_OF_FILE = "!end!";
 
     @Test
     public void load() throws IOException {
@@ -35,7 +38,7 @@ public class LogicTest {
             String stringText = new String(charText);
             stringText.trim();
             if (i != testFiles.size() - 1){
-                stringText += "!end!" ;
+                stringText += END_OF_FILE;
             }
             expected.add(stringText);
             fileReader.close();
@@ -62,7 +65,7 @@ public class LogicTest {
             String stringText = FileUtils.readFileToString(file);
             stringText.trim();
             if (i != testFiles.size() - 1){
-                stringText += "!end!";
+                stringText += END_OF_FILE;
             }
             strings.add(stringText.trim());
         }
@@ -73,6 +76,7 @@ public class LogicTest {
 
         String result = FileUtils.readFileToString(resultFile, "UTF-8");
         Assert.assertEquals(expected.trim(), result.trim());
+        resultFile.delete();
     }
 
     @Test

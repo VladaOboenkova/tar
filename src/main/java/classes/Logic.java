@@ -28,20 +28,23 @@ class Logic {
         this.fileName = fileName;
     }
 
+    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
+
+    private static final String END_OF_FILE = "!end!";
+
     public List<String> load() throws IOException {
         List<String> texts = new ArrayList<>();
         for (int i = 0; i < this.files.size(); i++) {
             File file = this.files.get(i);
             FileReader fileReader = new FileReader(file);
-            String lineSeparator = System.getProperty("line.separator");
-            String name = file.getName() + lineSeparator;
+            String name = file.getName() + LINE_SEPARATOR;
             char[] origText = new char[(int) file.length()];
             fileReader.read(origText);
             String textToAdd;
             String origTextString = new String(origText);
             textToAdd = name + origTextString;
             if (i != this.files.size() - 1) {
-                textToAdd += "!end!";
+                textToAdd += END_OF_FILE;
             }
             texts.add(textToAdd);
         }
@@ -67,7 +70,7 @@ class Logic {
             if (fileReader.ready()) {
                 fileReader.read(text);
                 String stringText = new String(text);
-                texts = stringText.split("!end!");
+                texts = stringText.split(END_OF_FILE);
             }
             fileReader.close();
             if (texts != null) {
