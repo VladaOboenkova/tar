@@ -65,7 +65,7 @@ class Logic {
 
     public List<File> split() throws IOException {
         List<File> outTexts = new ArrayList<>();
-        String[] texts = null;
+        String[] texts;
         if (this.fileName.length() != 0) {
             FileReader fileReader = new FileReader(this.fileName);
             char[] text = new char[(int) this.fileName.length()];
