@@ -4,7 +4,6 @@ package classes;
 import org.apache.commons.io.*;
 import org.junit.*;
 import java.io.*;
-import java.nio.file.Files;
 import java.util.*;
 
 public class LogicTest {
@@ -83,8 +82,8 @@ public class LogicTest {
     public void split() throws IOException {
         Logic logic = new Logic();
 
-        File firstTestFile = new File("input (Test)/text1.txt");
-        File secondTestFile = new File("input (Test)/text2.txt");
+        File firstTestFile = new File("Texts/text1.txt");
+        File secondTestFile = new File("Texts/text2.txt");
 
         List<File> testFiles = new ArrayList<>();
         testFiles.add(firstTestFile);
