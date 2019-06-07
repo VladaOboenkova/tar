@@ -108,5 +108,8 @@ public class LogicTest {
         }
 
         Assert.assertEquals(expected, result);
+        for (File file : resultFiles){
+            file.delete();
+        }
     }
 }
