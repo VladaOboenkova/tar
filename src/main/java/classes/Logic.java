@@ -2,6 +2,7 @@ package classes;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
+
 import java.io.*;
 import java.util.*;
 
@@ -68,31 +69,27 @@ class Logic {
         if (this.fileName.length() != 0) {
             FileReader fileReader = new FileReader(this.fileName);
             char[] text = new char[(int) this.fileName.length()];
-            if (fileReader.ready()) {
-                fileReader.read(text);
-                String stringText = new String(text);
-                texts = stringText.split(END_OF_FILE);
-            }
+            fileReader.read(text);
+            String stringText = new String(text);
+            texts = stringText.split(END_OF_FILE);
             fileReader.close();
-            if (texts != null) {
-                for (String str : texts) {
-                    List<String> lines = new ArrayList<>();
-                    try (Scanner s = new Scanner(str)) {
-                        while (s.hasNextLine()) {
-                            lines.add(s.nextLine());
-                        }
+            for (String str : texts) {
+                List<String> lines = new ArrayList<>();
+                try (Scanner s = new Scanner(str)) {
+                    while (s.hasNextLine()) {
+                        lines.add(s.nextLine());
                     }
-                    String name = lines.get(0);
-                    File file = new File(name);
-                    FileWriter fileWriter = new FileWriter(file, true);
-                    for (int i = 1; i < lines.size(); i++) {
-                        fileWriter.write(lines.get(i));
-                        fileWriter.write(LINE_SEPARATOR);
-                    }
-                    fileWriter.flush();
-                    fileWriter.close();
-                    outTexts.add(file);
                 }
+                String name = lines.get(0);
+                File file = new File(name);
+                FileWriter fileWriter = new FileWriter(file, true);
+                for (int i = 1; i < lines.size(); i++) {
+                    fileWriter.write(lines.get(i));
+                    fileWriter.write(LINE_SEPARATOR);
+                }
+                fileWriter.flush();
+                fileWriter.close();
+                outTexts.add(file);
             }
         }
         return outTexts;
