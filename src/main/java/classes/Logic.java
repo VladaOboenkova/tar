@@ -56,7 +56,7 @@ class Logic {
     public File out(List<String> files) throws IOException {
         FileWriter fileWriter = new FileWriter(this.out);
         for (String file : files) {
-            fileWriter.write(file);
+            fileWriter.write(file.trim());
         }
         fileWriter.flush();
         fileWriter.close();
@@ -84,8 +84,11 @@ class Logic {
                 File file = new File(name);
                 FileWriter fileWriter = new FileWriter(file, true);
                 for (int i = 1; i < lines.size(); i++) {
-                    fileWriter.write(lines.get(i));
-                    fileWriter.write(LINE_SEPARATOR);
+                    String line = lines.get(i);
+                    if (i != lines.size() - 1){
+                        line += LINE_SEPARATOR;
+                    }
+                    fileWriter.write(line);
                 }
                 fileWriter.flush();
                 fileWriter.close();

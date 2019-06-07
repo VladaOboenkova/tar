@@ -35,7 +35,6 @@ public class LogicTest {
             char[] charText = new char[(int) testFiles.get(i).length()];
             fileReader.read(charText);
             String stringText = new String(charText);
-            stringText.trim();
             if (i != testFiles.size() - 1){
                 stringText += END_OF_FILE;
             }
@@ -62,11 +61,10 @@ public class LogicTest {
         for (int i = 0; i < testFiles.size(); i++){
             File file = testFiles.get(i);
             String stringText = FileUtils.readFileToString(file);
-            stringText.trim();
             if (i != testFiles.size() - 1){
                 stringText += END_OF_FILE;
             }
-            strings.add(stringText.trim());
+            strings.add(stringText);
         }
 
         File resultFile = new File("test.txt");
@@ -74,7 +72,7 @@ public class LogicTest {
         logic.out(strings);
 
         String result = FileUtils.readFileToString(resultFile, "UTF-8");
-        Assert.assertEquals(expected.trim(), result.trim());
+        Assert.assertEquals(expected, result);
         resultFile.delete();
     }
 
@@ -92,7 +90,7 @@ public class LogicTest {
 
         for (File testFile : testFiles){
             String stringTextFile = FileUtils.readFileToString(testFile);
-            expected.add(stringTextFile.trim());
+            expected.add(stringTextFile);
         }
 
         File test = new File("input (Test)/output.txt");
