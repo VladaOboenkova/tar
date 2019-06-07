@@ -5,7 +5,7 @@ import org.kohsuke.args4j.*;
 import java.util.Arrays;
 
 
-public class tar {
+public class Tar {
 
     public static void main(String[] args) throws Exception {
 
