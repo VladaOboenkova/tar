@@ -47,6 +47,7 @@ class Logic {
                 textToAdd += END_OF_FILE;
             }
             texts.add(textToAdd);
+            fileReader.close();
         }
         return texts;
     }
@@ -84,7 +85,10 @@ class Logic {
                     String name = lines.get(0);
                     File file = new File(name);
                     FileWriter fileWriter = new FileWriter(file, true);
-                    fileWriter.write(str);
+                    for (int i = 1; i < lines.size(); i++) {
+                        fileWriter.write(lines.get(i));
+                        fileWriter.write(LINE_SEPARATOR);
+                    }
                     fileWriter.flush();
                     fileWriter.close();
                     outTexts.add(file);
